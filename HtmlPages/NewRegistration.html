@@ -1,0 +1,98 @@
+﻿<!doctype html>
+<html lang="en" ng-app="Registration">
+
+<head>
+    <meta charset="utf-8" />
+    <title>My AngularJS App</title>
+    <meta charset="UTF-8">
+    <script src="../Scripts/jquery-1.7.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="Scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="NewRegistration.js"></script>
+    <link href="../Styles/Treemenu.css" rel="stylesheet" />
+    <link href="Styles/ChatCommon.css" rel="stylesheet" />
+    <link href="../Styles/HomePage.css" rel="stylesheet" />
+    <link href="../Styles/ChatCommon.css" rel="stylesheet" />
+</head>
+<body ng-controller="stageController">
+    <div ng-include src="MenuUrl"></div>
+    <script type="text/ng-template" id="myModalContent.html">
+          <div class="modal-header">
+              <h5>Please enter verification code sent to your mobile number</h5>
+          </div>
+          <form name="Verify" novalidate ng-submit="submitForm();">        
+         <div class="modal-body">
+            <div id="css" class="form-section">
+                <label class="leftItem">
+                    Verfication Code :</label>
+                <input type="text" name="userId" class="form-section" ng-model="Code" ng-minlength="4" ng-maxlength="4" required ng-pattern="/^[0-9]+$/" />
+            </div>            
+            <div class="modal-footer">
+              <button class="btn btn-primary" ng-click="ok(Code)" ng-disabled="Verify.$pristine || Verify.$dirty && Verify.$invalid" >OK</button>
+              <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+    </script>
+    <form name="myForm" ng-submit="submitForm();">
+        <div style="padding-left: 16%; padding-top: 15%;">
+            <div id="css">
+                <label class="leftItem">
+                    First Name :</label><span><input type="text" name="userId" placeholder="First Name" ng-model="Register.FirstName" required ng-pattern="/^[a-zA-Z]+$/" /></span>
+                <br />
+                <label class="leftItem">
+                    Last Name :</label>
+                <input type="text" name="FirstName" placeholder="Last Name" ng-model="Register.LastName" required ng-pattern="/^[a-zA-Z]+$/" /><br />
+                <label class="leftItem">Mobile No :</label>
+                <input type="text" name="Mobileno" placeholder="Mobile Number" ng-model="Register.MobileNumber" ng-pattern="/^[0-9]+$/" required ng-minlength="10" ng-maxlength="10" /><br />
+                <label class="leftItem">Email :</label>
+                <input type="email" name="Email" placeholder="Email" ng-model="Register.Email" required /><br />
+                <label class="leftItem">Password :</label>
+                <input name="RegPwd" type="password" required ng-model="Register.Password" ng-minlength="8" ng-maxlength="20"
+                    placeholder="Password" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
+                    tooltip-placement="right" tooltip="Must contain between 8 to 20 characters one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)" /><br />
+                <label class="leftItem">Confirm Password :</label>
+                <input name="RegConfirmPwd" type="password" required ng-model="Register.ConPassword" ui-validate-equals="Register.Password"
+                    placeholder="Confirm Password" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
+                    tooltip-placement="right" tooltip="Must contain between 8 to 20 characters one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)" /><br />
+                <span ng-show='myForm.RegConfirmPwd.$error.equal'>Password must match</span>
+                <br />
+            </div>
+            <label class="leftItem">Gender :</label>
+            <input style="vertical-align: middle; width: auto" name="GMale" type="radio" ng-model="Register.Gender" required value="M" />Male
+            <input style="vertical-align: middle; width: auto" name="GFemale" type="radio" ng-model="Register.Gender" value="F" />Female<span ng-show='myForm.GMale.$error.required || myForm.GMale.$error.required' style="color: red">*</span>
+            <div id="css1" class="form-section">
+                <label class="leftItem">Country :</label>
+                <select class="select_ddlsl" ng-model="Register.CountryID" placeholder="Select Country" required ng-options="C.CountryID as C.CountryName for C in Countries" ng-change="countryChanged(Register.Country)">
+                    <option value="">Select</option>
+                </select><br />
+                <label class="leftItem">State :</label>
+                <select class="select_ddl" ng-model="Register.StateID" placeholder="Select State" required data-ng-disabled="StateDisable=='0'" ng-options="S.StateID as S.StateName for S in States | filter:{CountryID:Register.CountryID}">
+                    <option value="">Select</option>
+                </select>
+
+
+                <br>
+                <!-- <script type="text/javascript"
+                    src="https://www.google.com/recaptcha/api/challenge?k=6LeEaOwSAAAAAFuAS5Q0MyF8QqPI7nJfQJhJ51qb">
+                </script>-->
+            </div>
+            <br />
+            <input type="button" class="btn btn-inverse" ng-disabled="myForm.$pristine || myForm.$dirty && myForm.$invalid || !!myForm.RegConfirmPwd.$error.equal" style="height: 35px; width: 100px" value="Submit" ng-click="submitForm()" />
+            &nbsp;&nbsp;&nbsp;
+            <input type="button" class="btn btn-inverse" style="height: 35px; width: 100px" value="Reset" ng-click="Reset()" />
+            <div ng-include style="width: auto;" src="chatList"></div>
+        </div>
+        <!--<div style="height: 300px; width:150px; overflow: scroll">
+            <div ng-repeat="test in Countries">
+                {{test.CountryName}}
+            </div>
+        </div>-->
+    </form>
+</body>
+
+</html>
+<!--ng-pattern="/^id_[0-9]+$/"-->
