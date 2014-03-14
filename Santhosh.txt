@@ -2,8 +2,3 @@
 Added new file 
 Added By Kishore
 Added By Santhosh 
-<<<<<<< HEAD
-Added By santhosh Again with out latest
-=======
-Second Time Added By Kishore
->>>>>>> 20cff9f3702ff8c69cc823cc40a9577f93e3a73f
